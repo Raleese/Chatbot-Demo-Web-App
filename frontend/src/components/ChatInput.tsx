@@ -9,7 +9,7 @@ function ChatInput(){
                 Send
             </button>
         </div>
-    )
+    );
 }
 
-export default ChatInput
+export default ChatInput;
