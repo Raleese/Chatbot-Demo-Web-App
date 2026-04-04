@@ -51,14 +51,6 @@ Create `backend/.env`:
 GEMINI_API_KEY=your_api_key_here
 ```
 
-Run backend server:
-
-```powershell
-uvicorn app.main:app --reload
-```
-
-Backend runs at `http://127.0.0.1:8000`.
-
 ## Frontend Setup
 
 From the repository root:
@@ -66,10 +58,63 @@ From the repository root:
 ```powershell
 cd frontend
 npm install
-npm run dev
 ```
 
 Frontend runs at `http://localhost:5173`.
+
+## Docker (running the project)
+
+This repository includes:
+
+- `backend/Dockerfile`
+- `frontend/Dockerfile`
+- `frontend/nginx.conf` (serves frontend and proxies `/api/*` to backend)
+- `docker-compose.yml`
+
+### 1. Set API key
+
+Run:
+
+```powershell
+cp .env.example .env
+```
+
+In .env:
+
+```env
+GEMINI_API_KEY=your_api_key_here
+```
+
+### 2. Build and start all services
+
+From repository root:
+
+```powershell
+docker compose up --build
+```
+
+### 3. Open app
+
+- Frontend: `http://localhost:5173`
+- Backend docs: `http://localhost:8000/docs`
+
+### 4. Stop services
+
+```powershell
+docker compose down
+```
+
+### 5. Rebuild after code changes
+
+```powershell
+docker compose up --build
+```
+
+## Docker Architecture
+
+- Frontend container serves built React assets using Nginx.
+- Nginx forwards `/api/*` requests to backend container (`backend:8000`).
+- Frontend code defaults to `VITE_API_BASE_URL=/api` for Docker-friendly routing.
 
 ## API
 
