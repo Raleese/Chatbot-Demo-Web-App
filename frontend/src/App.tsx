@@ -22,17 +22,29 @@ function App() {
     ])
   }
 
+  function handleModeChange(newMode: ChatMode) {
+    setMode(newMode)
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        role: "bot",
+        text: "Changed mode to " + newMode.toUpperCase(),
+      },
+    ])
+  }
+
   return (
     <div
       className={`flex flex-col min-h-screen transition-colors ${
         isDarkModeActive ? "bg-gray-950 text-gray-100" : "bg-white text-gray-900"
       }`}
     >
-      <h1 className="text-3xl font-bold underline" style={{ textAlign: "center"}}>
-        Chatbot Demo
-      </h1>
-      <div className="flex flex-row justify-between">
-        <ModeSelector mode={mode} onModeChange={setMode} />
+      <div className="flex flex-row justify-between p-4 items-center">
+        <ModeSelector mode={mode} onModeChange={handleModeChange} />
+        <h1 className="text-3xl font-bold underline" style={{ textAlign: "center"}}>
+          Chatbot Demo
+        </h1>
         <DarkModeSelector currentMode={isDarkModeActive} onDarkModeChange={setIsDarkModeActive}/>
       </div>
       <div>

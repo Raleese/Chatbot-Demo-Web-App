@@ -11,7 +11,9 @@ function DarkModeSelector({currentMode, onDarkModeChange} : Props){
 
     return (
         <div>
-            <button onClick={handleChangeMode}>{currentMode ? "Switch to Light Mode" : "Switch to Dark Mode"}</button>
+            <button
+                className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded"
+                onClick={handleChangeMode}>{currentMode ? "Light" : "Dark"}</button>
         </div>
     )
 }
