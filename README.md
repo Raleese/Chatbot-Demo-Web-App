@@ -7,6 +7,10 @@ A full-stack chatbot demo with two response modes:
 
 ## Screenshots
 
+<img width="2873" height="1328" alt="image" src="https://github.com/user-attachments/assets/f9fb62ef-6970-4f56-84b7-c4b8c27a4eee" />
+<img width="2878" height="1343" alt="image" src="https://github.com/user-attachments/assets/e777ce43-60a4-4b0c-9e3f-5948a3c7976a" />
+<img width="2879" height="1353" alt="image" src="https://github.com/user-attachments/assets/f6ea9aac-bfe4-42a8-8998-1cfe9935d077" />
+
 ## Tech Stack
 
 - Backend: FastAPI, Uvicorn, Pydantic
