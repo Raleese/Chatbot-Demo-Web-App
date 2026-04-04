@@ -45,7 +45,13 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Create `backend/.env`:
+Run:
+
+```powershell
+cp .env.example .env
+```
+
+In .env:
 
 ```env
 GEMINI_API_KEY=your_api_key_here
@@ -71,21 +77,7 @@ This repository includes:
 - `frontend/nginx.conf` (serves frontend and proxies `/api/*` to backend)
 - `docker-compose.yml`
 
-### 1. Set API key
-
-Run:
-
-```powershell
-cp .env.example .env
-```
-
-In .env:
-
-```env
-GEMINI_API_KEY=your_api_key_here
-```
-
-### 2. Build and start all services
+### 1. Build and start all services
 
 From repository root:
 
@@ -93,18 +85,18 @@ From repository root:
 docker compose up --build
 ```
 
-### 3. Open app
+### 2. Open app
 
 - Frontend: `http://localhost:5173`
 - Backend docs: `http://localhost:8000/docs`
 
-### 4. Stop services
+### 3. Stop services
 
 ```powershell
 docker compose down
 ```
 
-### 5. Rebuild after code changes
+### 4. Rebuild after code changes
 
 ```powershell
 docker compose up --build
