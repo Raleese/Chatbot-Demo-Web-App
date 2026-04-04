@@ -7,10 +7,10 @@ export type Message = {
 }
 
 export type RuleChatRequest = {
-    message: String;
+    message: string;
     mode: ChatMode;
 }
 
 export type RuleChatResponse = {
-    reply: String;
+    reply: string;
 }
