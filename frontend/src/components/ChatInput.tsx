@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ChatMode } from "../types/chat";
-import { sendRuleChatRequest } from "../services/rule_chat_api";
+import { sendChatRequest } from "../services/chat_api";
 
 type Props = {
     mode: ChatMode;
@@ -25,7 +25,7 @@ function ChatInput({ mode, onAppendMessage, isDarkMode }: Props){
         setAnswer("");
 
         try {
-            const response = await sendRuleChatRequest({ message: trimmedText, mode: mode });
+            const response = await sendChatRequest({ message: trimmedText, mode: mode });
             onAppendMessage("bot", response.reply);
         } catch (err) {
             console.error("Error:", err);
