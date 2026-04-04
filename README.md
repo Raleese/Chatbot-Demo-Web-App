@@ -5,6 +5,8 @@ A full-stack chatbot demo with two response modes:
 - `rule`: simple rule-based responses from the backend.
 - `ai`: Gemini-powered responses using the Google GenAI SDK.
 
+## Screenshots
+
 ## Tech Stack
 
 - Backend: FastAPI, Uvicorn, Pydantic
