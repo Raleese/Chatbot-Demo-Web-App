@@ -7,6 +7,10 @@ A full-stack chatbot demo with two response modes:
 
 ## Screenshots
 
+<img width="2873" height="1328" alt="image" src="https://github.com/user-attachments/assets/f9fb62ef-6970-4f56-84b7-c4b8c27a4eee" />
+<img width="2878" height="1343" alt="image" src="https://github.com/user-attachments/assets/e777ce43-60a4-4b0c-9e3f-5948a3c7976a" />
+<img width="2879" height="1353" alt="image" src="https://github.com/user-attachments/assets/f6ea9aac-bfe4-42a8-8998-1cfe9935d077" />
+
 ## Tech Stack
 
 - Backend: FastAPI, Uvicorn, Pydantic
@@ -74,7 +78,7 @@ npm run dev
 
 Frontend runs at `http://localhost:5173`.
 
-## Docker (Everything)
+## Docker (running the project)
 
 This repository includes:
 
@@ -83,21 +87,7 @@ This repository includes:
 - `frontend/nginx.conf` (serves frontend and proxies `/api/*` to backend)
 - `docker-compose.yml`
 
-### 1. Set API key
-
-Run:
-
-```powershell
-cp .env.example .env
-```
-
-In .env:
-
-```env
-GEMINI_API_KEY=your_api_key_here
-```
-
-### 2. Build and start all services
+### 1. Build and start all services
 
 From repository root:
 
@@ -105,18 +95,18 @@ From repository root:
 docker compose up --build
 ```
 
-### 3. Open app
+### 2. Open app
 
 - Frontend: `http://localhost:5173`
 - Backend docs: `http://localhost:8000/docs`
 
-### 4. Stop services
+### 3. Stop services
 
 ```powershell
 docker compose down
 ```
 
-### 5. Rebuild after code changes
+### 4. Rebuild after code changes
 
 ```powershell
 docker compose up --build
