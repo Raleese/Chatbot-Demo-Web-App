@@ -53,6 +53,13 @@ Run backend server:
 uvicorn app.main:app --reload
 ```
 
+Run backend unit tests:
+
+```powershell
+cd backend
+venv\Scripts\python -m pytest -q
+```
+
 Backend runs at `http://127.0.0.1:8000`.
 
 ## Frontend Setup
