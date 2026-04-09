@@ -45,17 +45,26 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Run:
-
-```powershell
-cp .env.example .env
-```
-
-In .env:
+Create `backend/.env`:
 
 ```env
 GEMINI_API_KEY=your_api_key_here
 ```
+
+Run backend server:
+
+```powershell
+uvicorn app.main:app --reload
+```
+
+Run backend unit tests:
+
+```powershell
+cd backend
+venv\Scripts\python -m pytest -q
+```
+
+Backend runs at `http://127.0.0.1:8000`.
 
 ## Frontend Setup
 
@@ -64,6 +73,7 @@ From the repository root:
 ```powershell
 cd frontend
 npm install
+npm run dev
 ```
 
 Frontend runs at `http://localhost:5173`.
