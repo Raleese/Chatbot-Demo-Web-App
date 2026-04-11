@@ -16,6 +16,7 @@ A full-stack chatbot demo with two response modes:
 - Backend: FastAPI, Uvicorn, Pydantic
 - Frontend: React + TypeScript + Vite
 - AI: `google-genai`
+- The project has been tested using Unit Tests
 
 ## Project Structure
 
