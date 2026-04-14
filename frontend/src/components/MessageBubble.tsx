@@ -1,4 +1,6 @@
 import type { Message } from "../types/chat";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 type Props = {
     message: Message;
@@ -19,7 +21,13 @@ function MessageBubble({ message, isDarkMode }: Props) {
                     : "bg-white text-gray-900 border border-gray-200"
             }`}
         >
-            {message.text}
+            {isUser ? (
+                message.text
+            ) : (
+                <div className="markdown-content">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.text}</ReactMarkdown>
+                </div>
+            )}
         </div>
         </div>
     );
