@@ -2,8 +2,10 @@
 
 A full-stack chatbot demo with two response modes:
 
-- `rule`: simple rule-based responses from the backend.
-- `ai`: Gemini-powered responses using the Google GenAI SDK.
+- `rule`: deterministic rule-based replies from the backend.
+- `ai`: Gemini-powered replies using the Google GenAI SDK.
+
+The frontend now renders markdown-style Gemini output correctly (bold text, numbered lists, bullet lists, code, links).
 
 ## Screenshots
 
@@ -14,9 +16,9 @@ A full-stack chatbot demo with two response modes:
 ## Tech Stack
 
 - Backend: FastAPI, Uvicorn, Pydantic
-- Frontend: React + TypeScript + Vite
-- AI: `google-genai`
-- The project has been tested using Unit Tests
+- Frontend: React + TypeScript + Vite + Tailwind CSS
+- AI: google-genai (Gemini)
+- Tests: pytest (backend)
 
 ## Project Structure
 
@@ -26,50 +28,56 @@ backend/
 		chatbot/
 		models/
 		routes/
+	tests/
 frontend/
 	src/
+docker-compose.yml
 ```
 
 ## Prerequisites
 
-- Python 3.11+ (project currently uses a Python 3.14 virtual environment)
+- Python 3.11+
 - Node.js 18+
 - npm
+- Docker Desktop (optional, for containerized run)
 
-## Backend Setup
+## Quick Start (Local)
 
-From the repository root:
+### 1. Backend setup
+
+From repository root:
 
 ```powershell
 cd backend
+python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Create `backend/.env`:
+Create environment file:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Set your key in `.env`:
 
 ```env
 GEMINI_API_KEY=your_api_key_here
 ```
 
-Run backend server:
+Run backend:
 
 ```powershell
 uvicorn app.main:app --reload
 ```
 
-Run backend unit tests:
+Backend URL: `http://127.0.0.1:8000`
+API docs: `http://127.0.0.1:8000/docs`
 
-```powershell
-cd backend
-venv\Scripts\python -m pytest -q
-```
+### 2. Frontend setup
 
-Backend runs at `http://127.0.0.1:8000`.
-
-## Frontend Setup
-
-From the repository root:
+Open a new terminal from repository root:
 
 ```powershell
 cd frontend
@@ -77,18 +85,16 @@ npm install
 npm run dev
 ```
 
-Frontend runs at `http://localhost:5173`.
+Frontend URL: `http://localhost:5173`
 
-## Docker (running the project)
+### 3. Run tests (backend)
 
-This repository includes:
+```powershell
+cd backend
+venv\Scripts\python -m pytest -q
+```
 
-- `backend/Dockerfile`
-- `frontend/Dockerfile`
-- `frontend/nginx.conf` (serves frontend and proxies `/api/*` to backend)
-- `docker-compose.yml`
-
-### 1. Build and start all services
+## Run with Docker
 
 From repository root:
 
@@ -96,28 +102,16 @@ From repository root:
 docker compose up --build
 ```
 
-### 2. Open app
+Services:
 
 - Frontend: `http://localhost:5173`
 - Backend docs: `http://localhost:8000/docs`
 
-### 3. Stop services
+Stop containers:
 
 ```powershell
 docker compose down
 ```
-
-### 4. Rebuild after code changes
-
-```powershell
-docker compose up --build
-```
-
-## Docker Architecture
-
-- Frontend container serves built React assets using Nginx.
-- Nginx forwards `/api/*` requests to backend container (`backend:8000`).
-- Frontend code defaults to `VITE_API_BASE_URL=/api` for Docker-friendly routing.
 
 ## API
 
@@ -132,7 +126,7 @@ Request body:
 }
 ```
 
-`mode` supports:
+Allowed values for `mode`:
 
 - `rule`
 - `ai`
@@ -145,8 +139,40 @@ Response:
 }
 ```
 
-## Common Issues
+## Environment Variables
 
-- `No API key was provided`: Ensure `GEMINI_API_KEY` exists in `backend/.env`.
-- Import not resolved in VS Code: Verify the selected Python interpreter matches the environment where packages were installed.
-- CORS errors: Keep backend on `127.0.0.1:8000` and frontend on `localhost:5173` (or update CORS settings in backend).
+Backend (`backend/.env`):
+
+- `GEMINI_API_KEY`: Required for `ai` mode.
+- `ALLOWED_ORIGINS`: Optional in compose, already set in `docker-compose.yml`.
+
+## Troubleshooting
+
+### 1) `No API key was provided`
+
+- Confirm `backend/.env` exists.
+- Confirm it includes `GEMINI_API_KEY=...`.
+- Restart backend after updating env values.
+
+### 2) `403 PERMISSION_DENIED` with `CONSUMER_SUSPENDED`
+
+This is a Google-side project/account status issue, not a code issue.
+
+- The API key's project is suspended.
+- New keys created under the same suspended project will also fail.
+- Use a key from an active project with Generative Language API enabled and valid billing.
+
+### 3) Frontend build errors in Docker
+
+- Run `docker compose build frontend` to isolate frontend errors.
+- Run `npm install` in `frontend` if dependencies changed.
+
+### 4) CORS errors
+
+- Default local setup expects frontend on `localhost:5173` and backend on `127.0.0.1:8000`.
+- Update `ALLOWED_ORIGINS` in compose/backend if using different ports/domains.
+
+## Notes
+
+- Frontend markdown rendering is enabled for AI replies using `react-markdown` + `remark-gfm`.
+- User messages are rendered as plain text.
