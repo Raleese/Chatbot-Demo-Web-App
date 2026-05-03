@@ -4,6 +4,7 @@ export type Message = {
     id: string;
     role: "user" | "bot";
     text: string;
+    isLoading?: boolean;
 }
 
 export type RuleChatRequest = {

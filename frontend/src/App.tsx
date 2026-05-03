@@ -11,15 +11,29 @@ function App() {
   const [messages, setMessages] = useState<Message[]>([])
   const [isDarkModeActive, setIsDarkModeActive] = useState(false)
 
-  function handleAppendMessage(role: "user" | "bot", text: string) {
+  function handleAppendMessage(role: "user" | "bot", text: string, isLoading?: boolean) {
     setMessages((prev) => [
       ...prev,
       {
         id: crypto.randomUUID(),
         role,
         text,
+        isLoading: isLoading ?? false,
       },
     ])
+  }
+
+  function handleUpdateLastMessage(text: string, isLoading?: boolean) {
+    setMessages((prev) => {
+      if (prev.length === 0) return prev;
+      const newMessages = [...prev];
+      newMessages[newMessages.length - 1] = {
+        ...newMessages[newMessages.length - 1],
+        text,
+        isLoading: isLoading ?? false,
+      };
+      return newMessages;
+    });
   }
 
   function handleModeChange(newMode: ChatMode) {
@@ -30,6 +44,7 @@ function App() {
         id: crypto.randomUUID(),
         role: "bot",
         text: "Changed mode to " + newMode.toUpperCase(),
+        isLoading: false,
       },
     ])
   }
@@ -51,7 +66,12 @@ function App() {
         <ChatWindow messages={messages} isDarkMode={isDarkModeActive} />
       </div>
       <div className="mt-auto">
-        <ChatInput mode={mode} onAppendMessage={handleAppendMessage} isDarkMode={isDarkModeActive} />
+        <ChatInput 
+          mode={mode} 
+          onAppendMessage={handleAppendMessage}
+          onUpdateLastMessage={handleUpdateLastMessage}
+          isDarkMode={isDarkModeActive} 
+        />
       </div>
     </div>
   )
