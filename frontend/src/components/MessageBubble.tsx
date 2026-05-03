@@ -1,3 +1,5 @@
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import type { Message } from "../types/chat";
 import AnimatedText from "./AnimatedText";
 import TypingIndicator from "./TypingIndicator";
@@ -9,6 +11,9 @@ type Props = {
 
 function MessageBubble({ message, isDarkMode }: Props) {
     const isUser = message.role === "user";
+    const markdownClassNames = isDarkMode
+        ? "prose prose-invert prose-sm max-w-none prose-headings:mb-2 prose-headings:mt-4 prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-strong:text-inherit prose-code:text-inherit prose-code:bg-gray-700 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-pre:bg-gray-900 prose-pre:text-gray-100"
+        : "prose prose-sm max-w-none prose-headings:mb-2 prose-headings:mt-4 prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-strong:text-inherit prose-code:text-inherit prose-code:bg-gray-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-pre:bg-gray-100 prose-pre:text-gray-900";
 
     return (
         <div className={`flex ${isUser ? "justify-end" : "justify-start"} animate-fadeIn`}>
@@ -24,8 +29,16 @@ function MessageBubble({ message, isDarkMode }: Props) {
             {message.isLoading ? (
                 <TypingIndicator />
             ) : (
-                <div className="leading-relaxed">
-                    <AnimatedText text={message.text} speed={15} />
+                <div className={`leading-relaxed ${isUser ? "whitespace-pre-wrap" : ""}`}>
+                    {isUser ? (
+                        <AnimatedText text={message.text} speed={15} />
+                    ) : (
+                        <div className={markdownClassNames}>
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                {message.text}
+                            </ReactMarkdown>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
